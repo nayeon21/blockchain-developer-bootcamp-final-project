@@ -1,12 +1,25 @@
 let { networkConfig } = require('../helper-hardhat-config')
 const sqlite3 = require('sqlite3');
-const { db_get } = require("./db_get");
 let filepath = '/Users/gimnayeon/Library/Application Support/Google/Chrome/Default/History'
 const db = new sqlite3.Database(filepath);
-exports.db = db;
 
 let history;
-exports.history = history;
+
+async function db_get(query) {
+  try {
+      db.get(query, async function (err, data) {
+          if(err) {
+              console.log(err);
+          }
+          history = await data;
+      });
+      db.close();
+      return history;
+  } catch (error) {
+      console.error(error);
+      throw error;
+  }
+}
 
 async function main({
   getNamedAccounts, deployments, getChainId

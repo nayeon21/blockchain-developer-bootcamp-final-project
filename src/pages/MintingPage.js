@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Header from '../components/Header';import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { Link } from 'react-router-dom'
@@ -9,6 +9,8 @@ import '../App.css';
 
 const CONTRACT_ADDRESS = "0x0CBB1a6A579CC61995E1aFa10b08C2Ade2B1414F";
 const ETHERSCAN_LINK = `https://kovan.etherscan.io/address/${CONTRACT_ADDRESS}`;
+
+let history;
 
 const MintingPage = () => {
   let totalMinted
@@ -81,19 +83,29 @@ const MintingPage = () => {
     }
   }
 
+    const state = {
+        url:null,
+        title:null,
+        data:null,
+    }
+
+  const componentDidMount = () => {
+    fetch('http://localhost:3001/api')
+        .then(res=>res.json())
+        .then(data=>this.setState({data}));
+    console.log(state)
+  }
+
   const askContractToMintNft = async () => {
       try {
         const { ethereum } = window;
-
+        componentDidMount();
         if (ethereum) {
           const provider = new ethers.providers.Web3Provider(ethereum);
           const signer = provider.getSigner()
           const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, historyNft.abi, signer)
-
-          // console.log("Going to pop wallet now to pay gas...")
-          let nftTxn = await connectedContract.create('{"url":"https://heowc.tistory.com/82","title":"Node.js - 로컬 모듈 접근에 대한 다양한 개선 방법","date":"2021-11-30 11:48:09"}')
-
-          // console.log("Mining... please wait")
+          console.log(JSON.stringify(state))
+          let nftTxn = await connectedContract.create(JSON.stringify(state))
           setMiningAnimation(true);
           await nftTxn.wait()
           console.log(nftTxn)
