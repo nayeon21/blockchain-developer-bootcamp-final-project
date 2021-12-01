@@ -166,7 +166,7 @@ const MainPage = () => {
         <Link to="/myNft" className="card-container" onClick={connectWallet}>
           <img src={historyViewIcon} alt="historyViewIcon" className="history-view-img" />
           <p className="sub-text">
-            Make your hitory unique!
+            List of your hitory NFTs
           </p>
         </Link>
       </div>

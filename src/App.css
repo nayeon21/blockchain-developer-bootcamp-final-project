@@ -60,6 +60,23 @@
   text-decoration-line: none;
 }
 
+.nfts-container {
+  margin: '40px';
+  width: 100%;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+.nft-container {
+  margin: 30px;
+  padding-top: 30px;
+  justify-content: center;
+  min-height: 40%;
+  max-width: 30%;
+}
+
+
 @keyframes animate {
   0% {
     background-position-x: 0;

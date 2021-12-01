@@ -81,32 +81,6 @@ const MintingPage = () => {
     }
   }
 
-  const askContractToMintNft = async () => {
-      try {
-        const { ethereum } = window;
-
-        if (ethereum) {
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner()
-          const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, historyNft.abi, signer)
-
-          // console.log("Going to pop wallet now to pay gas...")
-          let nftTxn = await connectedContract.create('{"url":"https://heowc.tistory.com/82","title":"Node.js - 로컬 모듈 접근에 대한 다양한 개선 방법","date":"2021-11-30 11:48:09"}')
-
-          // console.log("Mining... please wait")
-          setMiningAnimation(true);
-          await nftTxn.wait()
-          console.log(nftTxn)
-          console.log(`Mined, tee transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`)
-          setMiningAnimation(false)
-        } else {
-          console.log("Ethereum object doesn't exist")
-        }
-      } catch (error) {
-        console.log(error)
-      }
-  }
-
   useEffect(() => {
     checkIfWalletIsConnected()
     getTotalNFTsMintedSoFar()
@@ -123,16 +97,6 @@ const MintingPage = () => {
       Connected to Wallet
     </button>
   );
-
-  const renderMintUI = () => (
-    <button onClick={askContractToMintNft} className="cta-button mint-button">
-      Mint NFT
-    </button>
-  )
-
-  const renderNetworkPrompt = () => (
-    alert("Hello there, This app is built on the rinkeby testnet and it looks like you are on a different ethereum network. Please switch to the Rinkeby testnet to continue")
-  )
 
   const getTotalNFTsMintedSoFar = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -158,7 +122,18 @@ const MintingPage = () => {
           <p className="sub-text">
             Your History Nft Collection
           </p>
-          {currentAccount === "" ? renderNotConnectedContainer() : renderMintUI()}
+          <div className='nfts-container'>
+            <div className='nft-container'>
+            "url":"https://heowc.tistory.com/82"
+            "title":"Node.js - 로컬 모듈 접근에 대한 다양한 개선 방법"
+            "date":"2021-11-30 11:48:09"
+            </div>
+            <div className='nft-container'>
+            "url":"https://heowc.tistory.com/82"
+            "title":"Node.js - 로컬 모듈 접근에 대한 다양한 개선 방법"
+            "date":"2021-11-30 11:48:09"
+            </div>
+          </div>
       </div>
         <div className="footer-container">
           <p className="sub-text">

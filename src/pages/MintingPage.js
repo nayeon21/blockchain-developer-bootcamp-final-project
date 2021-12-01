@@ -105,7 +105,8 @@ const MintingPage = () => {
           const signer = provider.getSigner()
           const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, historyNft.abi, signer)
           console.log(JSON.stringify(state))
-          let nftTxn = await connectedContract.create(JSON.stringify(state))
+          //need to change below code... importing server side data is needed
+          let nftTxn = await connectedContract.create('{"url":"https://heowc.tistory.com/82","title":"Node.js - 로컬 모듈 접근에 대한 다양한 개선 방법","date":"2021-11-30 11:48:09"}')
           setMiningAnimation(true);
           await nftTxn.wait()
           console.log(nftTxn)
